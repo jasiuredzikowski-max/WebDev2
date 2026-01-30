@@ -1,0 +1,35 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+  <meta charset="utf-8">
+  <title>Lab One Exercise Four</title>
+ </head>
+ <body>
+ <h1>Calculator</h1>
+ <p>Look in the console for output</p>
+ <script>
+ let num1=parseInt(prompt('Enter a Number between 1 and 10',''));
+ if (isNaN(num1)) {
+   alert(`You did not enter a Number`);
+ }
+ else {
+   alert(`The Number you entered was ${num1}`);
+ }
+  let num2=parseInt(prompt('Enter a Number between 1 and 10',''));
+ if (isNaN(num2)) {
+   alert(`You did not enter a Number`);
+ }
+ else {
+   alert(`The Number you entered was ${num2}`);
+ }
+
+console.log(`Your first number plus the second number is `, num1 + num2); //addition
+
+console.log(`Your first number minus the second number is `, num1 - num2); //subtraction
+
+console.log(`Your first number multiplyed by the second number is `, num1 * num2); //multiplication
+
+console.log(`Your first number divided by the second number is `, num1 / num2); //division
+ </script>
+ </body>
+ </html>
