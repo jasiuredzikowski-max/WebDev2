@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Helpers Exercise 2</title>
+</head>
+<body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"></script>
+<script id="social-template" type="text/x-handlebars-template">
+  <p>{{name}} on {{date}}</p>
+  <p>{{{comment}}}</p>
+  
+  <h2><b>Social Media</b></h2>
+  <ul>
+    {{#each social}}
+      <li>{{site}}: {{name}}</li>
+    {{/each}} 
+  </ul>
+</script>
+
+<script>
+  const checkForSocial = (socialfun) =>{
+    if(socialfun.length > 0){
+      return "This user has social media accounts"
+    } else {
+      return "This user does not have any social media accounts"
+    }
+  }
+</script>
+
+<script>
+const data = {
+  name: "Jack",
+  date: "12/03/25",
+  comment: "This is a really <strong>awesome</strong> tutorial. Thanks.",
+  social: [
+    {
+      site: "Twitter",
+      name: "Jack_Franklin"
+    },
+    {
+      site: "Github",
+      name: "jackfranklin"
+    }
+  ]
+}
+</script>
+
+<script>
+  const templateSource = document.getElementById('social-template').innerHTML;
+  const template = Handlebars.compile(templateSource);
+  const html = template(data);
+  document.body.innerHTML += html;
+
+  const socialCheck = checkForSocial(data.social);
+  document.body.innerHTML += `<p>${socialCheck}</p>`;
+</script>
+
+
+</body>
+</html>

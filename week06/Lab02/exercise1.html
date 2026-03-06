@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Helpers Exercise 1</title>
+</head>
+
+<body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"></script>
+<script id="recipe-template" type="text/x-handlebars-template">
+  <h1>{{description}}</h1>
+  <ul>
+    {{#each ingredients}}
+      <li>{{quantity}} of {{name}}</li>
+    {{/each}}
+  </ul>
+</script>
+
+<script>
+const recipe = {
+  description: 'Yummy Chicken Noodle Soup',
+  ingredients: [
+    {quantity: "1 cup", name: 'Chicken'},
+    {quantity: "3 nanoliters", name: 'Stock'},
+    {quantity: "12", name: 'Noodles'}
+  ]
+}
+</script>
+
+<script>
+  const templateSource = document.getElementById('recipe-template').innerHTML;
+  const template = Handlebars.compile(templateSource);
+  const html = template(recipe);
+  document.body.innerHTML += html;
+</script>
+
+
+</body>
+</html>
