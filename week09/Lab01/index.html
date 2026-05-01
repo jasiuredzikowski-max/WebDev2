@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Car Sales</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <h1>Car Sales</h1>
+
+  <div id="container">
+
+    <nav>
+      <form id="searchForm">
+        <div class="form-row">
+          <label for="search">Search Cars</label>
+          <input type="text" id="search" name="search" placeholder="Search by make" size="30">
+        </div>
+      </form>
+
+      <ul>
+        <li><a id="active" href="index.html">Add Stock</a></li>
+        <li><a href="stock.html">View Stock</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <table id="carTable"></table>
+      <button id="toggle">Add a Record</button>
+    </main>
+
+    <dialog>
+      <header class="modal__title">
+        <h1>Add a Car <span id="close"><i class="fa fa-close"></i></span></h1>
+      </header>
+
+      <form id="inputForm">
+
+        <div class="form-row">
+          <label for="reg">Registration Number</label>
+          <input type="text" id="reg" required>
+        </div>
+
+        <div class="form-row">
+          <label for="make">Make</label>
+          <select id="make" required>
+            <option value="">-- Select a Make --</option>
+            <option value="Ford">Ford</option>
+            <option value="Hyundai">Hyundai</option>
+            <option value="Toyota">Toyota</option>
+            <option value="Renault">Renault</option>
+            <option value="Nissan">Nissan</option>
+            <option value="Tesla">Tesla</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="model">Model</label>
+          <select id="model" required>
+            <option value="">-- Select a Model --</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="colour">Colour</label>
+          <input type="text" id="colour" required>
+        </div>
+
+        <div class="form-row">
+          <label for="kms">Kilometres</label>
+          <input type="text" id="kms" required>
+        </div>
+
+        <div class="form-row">
+          <label for="year">Year</label>
+          <input type="text" id="year" required>
+        </div>
+
+        <div class="form-row">
+          <label for="style">Style</label>
+          <select id="style" required>
+            <option value="">-- Select Style --</option>
+            <option value="Hatchback">Hatchback</option>
+            <option value="Saloon">Saloon</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="price">Price</label>
+          <input type="text" id="price" required>
+        </div>
+
+        <div class="form-row">
+          <label for="img">Car Image URL</label>
+          <input type="text" id="img" required>
+        </div>
+
+        <button type="submit">Add a New Car</button>
+        <button type="reset">Clear the Info</button>
+
+      </form>
+    </dialog>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"></script>
+
+  <!-- Table Template -->
+  <script id="table-template" type="text/x-handlebars-template">
+  {{#if this}}
+    <thead>
+      <tr>
+        <th>Make</th>
+        <th>Model</th>
+        <th>Colour</th>
+        <th>Kilometres</th>
+        <th>Year</th>
+        <th>Price</th>
+        <th>Picture</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {{#each this}}
+        <tr>
+          <td>{{make}}</td>
+          <td>{{model}}</td>
+          <td>{{formatColour colour}}</td>
+          <td>{{formatKms kms}}</td>
+          <td>{{year}}</td>
+          <td>{{formatPrice price}}</td>
+          <td><img src="{{img}}" alt="{{make}} {{model}}" class="car-img"></td>
+          <td><button data-id="{{regNo}}">Delete</button></td>
+        </tr>
+      {{/each}}
+    </tbody>
+  {{/if}}
+  </script>
+
+  <script>
+
+    Handlebars.registerHelper("formatColour", c => c.charAt(0).toUpperCase() + c.slice(1));
+    Handlebars.registerHelper("formatKms", kms => Number(kms).toLocaleString() + " km");
+    Handlebars.registerHelper("formatPrice", price => "€" + Number(price).toLocaleString());
+
+    let carData = JSON.parse(localStorage.getItem("carsplus")) || [];
+    const table = document.querySelector("#carTable");
+    const form = document.querySelector("#inputForm");
+    const dialog = document.querySelector("dialog");
+    const btnOpen = document.querySelector("#toggle");
+    const btnClose = document.querySelector("#close");
+    const searchInput = document.querySelector("#search");
+
+    const template = Handlebars.compile(document.querySelector("#table-template").innerHTML);
+
+    const displayRecs = data => table.innerHTML = template(data);
+
+    const defaultModels = {
+      Ford: ["Fiesta", "Focus"],
+      Hyundai: ["i10", "i20"],
+      Toyota: ["Corolla", "C-HR"],
+      Renault: ["Clio", "Megane"],
+      Nissan: ["Micra", "Qashqai"],
+      Tesla: ["Model 3", "Model Y"]
+    };
+
+    document.querySelector("#make").addEventListener("change", () => {
+      const make = document.querySelector("#make").value;
+      const modelSelect = document.querySelector("#model");
+      modelSelect.innerHTML = '<option value="">-- Select a Model --</option>';
+
+      if (defaultModels[make]) {
+        defaultModels[make].forEach(m => {
+          const opt = document.createElement("option");
+          opt.value = m;
+          opt.textContent = m;
+          modelSelect.appendChild(opt);
+        });
+      }
+    });
+
+    form.addEventListener("submit", evt => {
+      evt.preventDefault();
+
+      const regNo = document.querySelector("#reg").value.trim();
+      const make = document.querySelector("#make").value;
+      const model = document.querySelector("#model").value;
+      const colour = document.querySelector("#colour").value.trim();
+      const kms = document.querySelector("#kms").value.trim();
+      const year = document.querySelector("#year").value.trim();
+      const style = document.querySelector("#style").value;
+      const price = document.querySelector("#price").value.trim();
+      const img = document.querySelector("#img").value.trim();
+
+      if (isNaN(kms) || kms <= 0) return alert("Kilometres must be a positive number");
+      if (isNaN(price) || price < 500) return alert("Price must be numeric and at least €500");
+      if (isNaN(year) || year < 2000) return alert("Year must be 2000 or later");
+
+      const newcar = { regNo, make, model, colour, kms: Number(kms), year: Number(year), style, price: Number(price), img };
+
+      carData.push(newcar);
+      localStorage.setItem("carsplus", JSON.stringify(carData));
+      displayRecs(carData);
+
+      form.reset();
+      dialog.close();
+    });
+
+    table.addEventListener("click", evt => {
+      if (evt.target.matches("button")) {
+        const reg = evt.target.dataset.id;
+        carData = carData.filter(car => car.regNo !== reg);
+        localStorage.setItem("carsplus", JSON.stringify(carData));
+        displayRecs(carData);
+      }
+    });
+
+
+    searchInput.addEventListener("input", () => {
+      const term = searchInput.value.toLowerCase();
+      const filtered = carData.filter(car =>
+        car.make.toLowerCase().includes(term) ||
+        car.model.toLowerCase().includes(term) ||
+        car.colour.toLowerCase().includes(term)
+      );
+      displayRecs(filtered);
+    });
+
+    btnOpen.addEventListener("click", () => dialog.showModal());
+    btnClose.addEventListener("click", () => dialog.close());
+
+    displayRecs(carData);
+  </script>
+
+</body>
+</html>

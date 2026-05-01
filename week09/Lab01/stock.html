@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Car Sales</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <h1>Car Sales</h1>
+
+  <div id="container">
+
+    <nav>
+      <form id="searchForm">
+        <div class="form-row">
+          <label for="search">Search Cars</label>
+          <input type="text" id="search" name="search" placeholder="Search by make" size="30">
+        </div>
+      </form>
+
+      <ul>
+        <li><a href="index.html">Add Stock</a></li>
+        <li><a id="active" href="stock.html">View Stock</a></li>
+      </ul>
+    </nav>
+
+    <main id="main2">
+      <section id="buttons">
+        <button id="years">Sort by Year</button>
+        <button id="colours">Sort by Colour</button>
+        <button id="reset">Reset</button>
+      </section>
+
+      <div id="cardsOutput"></div>
+    </main>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"></script>
+
+  <!-- Card Template -->
+  <script id="card-template" type="text/x-handlebars-template">
+
+  {{#if this}}
+    <div class="cards">
+      {{#each this}}
+        <div class="card">
+
+          <div class="image">
+            <img src="{{img}}" alt="{{make}} {{model}}">
+          </div>
+
+          <div class="text">
+            <h2>{{make}} {{model}}</h2>
+
+            <div id="outer">
+              <div class="inner">
+                <span><i class="fa fa-calendar"></i> {{year}}</span>
+                <span><i class="fa fa-paint-brush"></i> {{formatColour colour}}</span>
+              </div>
+
+              <div class="inner">
+                <span><i class="fa fa-tachometer"></i> {{formatKms kms}}</span>
+                <span><i class="fa fa-car"></i> {{style}}</span>
+              </div>
+            </div>
+
+            <p><i class="fa fa-eur"></i> {{formatPrice price}}</p>
+          </div>
+
+        </div>
+      {{/each}}
+    </div>
+  {{/if}}
+
+  </script>
+
+  <script>
+   
+    Handlebars.registerHelper("formatColour", c => c.charAt(0).toUpperCase() + c.slice(1));
+    Handlebars.registerHelper("formatKms", kms => Number(kms).toLocaleString() + " km");
+    Handlebars.registerHelper("formatPrice", price => "€" + Number(price).toLocaleString());
+
+  
+    let carData = JSON.parse(localStorage.getItem("carsplus")) || [];
+    let filteredcars = carData.slice();
+
+    const output = document.querySelector("#cardsOutput");
+    const searchInput = document.querySelector("#search");
+    const sortYearBtn = document.querySelector("#years");
+    const sortColourBtn = document.querySelector("#colours");
+    const resetBtn = document.querySelector("#reset");
+
+    const template = Handlebars.compile(document.querySelector("#card-template").innerHTML);
+
+    const displayRecs = (data) => {
+      output.innerHTML = template(data);
+    };
+
+    searchInput.addEventListener("input", () => {
+      const term = searchInput.value.trim().toLowerCase();
+
+      filteredcars = carData.filter(car =>
+        car.make.toLowerCase().includes(term) ||
+        car.model.toLowerCase().includes(term) ||
+        car.colour.toLowerCase().includes(term)
+      );
+
+      displayRecs(filteredcars);
+    });
+
+    sortYearBtn.addEventListener("click", () => {
+      filteredcars.sort((a, b) => b.year - a.year);
+      displayRecs(filteredcars);
+    });
+
+    sortColourBtn.addEventListener("click", () => {
+      filteredcars.sort((a, b) => a.colour.localeCompare(b.colour));
+      displayRecs(filteredcars);
+    });
+
+   
+    resetBtn.addEventListener("click", () => {
+      filteredcars = carData.slice();
+      searchInput.value = "";
+      displayRecs(filteredcars);
+    });
+
+    displayRecs(filteredcars);
+  </script>
+
+</body>
+</html>
