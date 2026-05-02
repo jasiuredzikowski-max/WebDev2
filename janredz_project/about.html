@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jan Redzikowski's personal website</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.2/dist/semantic.min.css">
+     
+    <!-- jQuery FIRST -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Fomantic UI -->
+    <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.2/dist/semantic.min.js"></script>
+
+    <!-- Handlebars -->
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+</head>
+
+<body>
+  
+<!-- Fomantic UI Welcome Section-->
+<section id="welcome-section">
+    <div class="ui inverted vertical masthead center aligned segment" style="padding: 0;">
+        <header>
+    <h1 class="ui inverted header">Jan Redzikowski's Personal Website</h1>
+        </header>
+  </div>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Me</a></li>
+            <li><a href="data.html">Data</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main content-->
+    <main>
+        <section id="about-me" class="ui segment">
+            <h2>About Me</h2>
+            <p>Hello, my name is Jan Redzikowski. I'm 19 years old, and I am a 1st year SSD student at Waterford SETU.</p>
+        </section>
+        
+        <section id="about-data" class="ui segment">
+            <h2>About the Data Page</h2>
+            <p>The data page allows you to manage your hobbies. You can add new hobbies, sort them, and delete them. You are able to also see how much hours you spend on each hobby per week.</p>
+        </section>
+
+        <section id="about-info" class="ui segment">
+            <h2 id="toggleInfo" style="cursor:pointer;">Click to Show/Hide Extra Info</h2>
+        <p id="extraInfo" style="display:none;">
+            This website uses HTML, CSS, JavaScript, HandleBars, and Fomantic UI.
+        </p>
+    </section>
+
+    <section id="comment" class="ui segement"
+    <h2>Leave a comment</h2>
+
+    <form id="commentForm" class="ui form">
+        <div class="field">
+            <label>Name</label>
+            <input type="text" id="commentName" required>
+        </div>
+
+        <div class="field">
+            <label>Message</label>
+            <input type="text" id="commentMessage" required>
+        </div>
+        <button class="ui button">Submit Comment</button>
+    </form>
+
+
+<script id="comment-template" type="text/x-handlebars-template">
+        <div class="ui comments">
+            {{#each this}}
+            <div class="comment">
+                <div class="content">
+                    <span class="author">{{name}}</span>
+                    <div class="text">{{message}}</div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+</script>
+    
+<div id="commentDisplay"></div>
+
+</main>
+
+  <!-- Footer -->
+    <footer>
+        <p>&copy; 2023 Jan Redzikowski. All rights reserved.</p>
+    </footer>
+    <script src="js/script.js"></script>
+</body>
+</html>

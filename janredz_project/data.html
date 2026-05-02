@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jan Redzikowski's personal website</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.2/dist/semantic.min.css">
+     
+    <!-- jQuery FIRST -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Fomantic UI -->
+    <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.2/dist/semantic.min.js"></script>
+
+    <!-- Handlebars -->
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+</head>
+
+<body>
+  
+<!-- Fomantic UI Welcome Section-->
+<section id="welcome-section">
+    <div class="ui inverted vertical masthead center aligned segment" style="padding: 0;">
+        <header>
+    <h1 class="ui inverted header">Jan Redzikowski's Personal Website</h1>
+        </header>
+  </div>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Me</a></li>
+            <li><a href="data.html">Data</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main content-->
+    <main>
+        <form id="addForm">
+    <input type="text" id="searchBox" placeholder="Search by hobby">
+    <input type="text" id="hobby" placeholder="Hobby" required>
+    <input type="text" id="category" placeholder="Category" required>
+    <input type="number" id="hoursPerWeek" placeholder="Hours per week" required>
+    <button class="ui button">Add</button>
+    <button id="sortAsc" class="ui button">Sort A-Z</button>
+    <button id="sortDesc" class="ui button">Sort Z-A</button>
+    </form>
+
+  <p id="totalHours"></p>
+
+<script id="hobby-template" type="text/x-handlebars-template">
+    <div class="ui cards">
+        {{#each this}}
+        <div class="card">
+            <div class="content">
+                <div class="header">{{hobby}}</div>
+                <div class="meta">{{category}}</div>
+                <div class="description">Hours per week: {{hoursPerWeek}}</div>
+            </div>
+            <div class="extra content">
+                <button class="ui red button delete-btn" data-index="{{@index}}">Delete</button>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</script>
+
+<div id="displayArea"></div>
+</main>
+
+  <!-- Footer -->
+    <footer>
+        <p>&copy; 2023 Jan Redzikowski. All rights reserved.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

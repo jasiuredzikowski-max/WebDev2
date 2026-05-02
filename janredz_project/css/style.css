@@ -1,0 +1,82 @@
+html, body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    animation: colorChange 50s infinite;
+}
+body{
+    display: flex;
+    flex-direction: column;
+}
+main {
+    flex: 1;
+}
+header{
+    text-align: center;
+    padding: 20px 0;
+}
+footer {
+    font-family: italic;
+    text-align: bottom;
+}
+
+@keyframes colorChange {
+    0% { background-color: #e3940a; }
+    50% { background-color: #e63a0a; }
+    100% { background-color: #e3940a; }
+}
+
+nav {
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 12px;
+    width: 80%;
+    margin:auto
+}
+
+nav ul{
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    padding: 0;
+}
+
+nav ul li a {
+    color: white;
+    text-shadow: 1px 1px 2px black;
+    text-decoration: none;
+    font-size: 20px;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #e3940a;
+}
+
+/* Layout for the two-column section, image + text (cs2) */
+.two-column {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 40px;
+}
+
+.left-side img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+}
+
+.right-side {
+    flex: 1;
+    color: white;
+    text-shadow: 1px 1px 2px black;
+}
+
+
+/* Total hours for Data */
+
+
